@@ -1,17 +1,30 @@
 @import 'tailwindcss';
 
+/* Class-based dark mode: driven by the `dark` class on <html>, set by the
+   boot script in index.html and kept in sync by ThemeProvider. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans:
     ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
     sans-serif;
 }
 
-html {
-  -webkit-text-size-adjust: 100%;
-}
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
 
-body {
-  @apply bg-slate-50 text-slate-900 antialiased;
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased;
+
+    /* NOTE: use `@variant`, not `@apply dark:…`. Applying a variant via @apply
+       emits a *utility* selector that requires the element to carry that class
+       literally, which the <body> never does. */
+    @variant dark {
+      @apply bg-slate-950 text-slate-100;
+    }
+  }
 }
 
 /* Keep number inputs tidy in tables and forms. */
@@ -24,5 +37,3 @@ input[type='number']::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
-
-/* `line-clamp-1` is built into Tailwind v4, `sr-only` too. */

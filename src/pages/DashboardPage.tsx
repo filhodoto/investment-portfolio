@@ -35,15 +35,19 @@ function StatCard({
   return (
     <Card>
       <CardBody>
-        <p className="text-xs font-medium tracking-wide text-slate-500 uppercase">{label}</p>
+        <p className="text-xs font-medium tracking-wide text-slate-500 uppercase dark:text-slate-400">
+          {label}
+        </p>
         <p
           className={`mt-1.5 text-2xl font-semibold tabular-nums ${
-            tone === 'positive' ? 'text-emerald-700' : 'text-slate-900'
+            tone === 'positive'
+              ? 'text-emerald-700 dark:text-emerald-400'
+              : 'text-slate-900 dark:text-slate-100'
           }`}
         >
           {value}
         </p>
-        {hint && <p className="mt-1 text-xs text-slate-500">{hint}</p>}
+        {hint && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{hint}</p>}
       </CardBody>
     </Card>
   )
@@ -83,7 +87,7 @@ export function DashboardPage() {
         actions={
           <Link
             to="/investments"
-            className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+            className="text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
           >
             View all investments →
           </Link>
@@ -133,30 +137,30 @@ export function DashboardPage() {
                 actions={
                   <Link
                     to="/investments"
-                    className="text-xs font-medium text-indigo-600 hover:text-indigo-500"
+                    className="text-xs font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
                   >
                     See all
                   </Link>
                 }
               />
-              <ul className="divide-y divide-slate-100">
+              <ul className="divide-y divide-slate-100 dark:divide-slate-800/70">
                 {recent.map((investment) => (
                   <li key={investment.id}>
                     <Link
                       to={`/investments/${investment.id}`}
-                      className="flex items-center justify-between gap-4 px-5 py-3 transition-colors hover:bg-slate-50/70"
+                      className="flex items-center justify-between gap-4 px-5 py-3 transition-colors hover:bg-slate-50/70 dark:hover:bg-slate-800/40"
                     >
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-medium text-slate-900">
+                        <p className="truncate text-sm font-medium text-slate-900 dark:text-slate-100">
                           {investment.title}
                         </p>
-                        <p className="mt-0.5 truncate text-xs text-slate-500">
+                        <p className="mt-0.5 truncate text-xs text-slate-500 dark:text-slate-400">
                           {[investment.city, investment.typology].filter(Boolean).join(' · ')} ·{' '}
                           {formatDate(investment.created_at)}
                         </p>
                       </div>
                       <div className="flex shrink-0 items-center gap-3">
-                        <span className="text-sm tabular-nums text-slate-700">
+                        <span className="text-sm tabular-nums text-slate-700 dark:text-slate-300">
                           {formatCurrency(investment.asking_price)}
                         </span>
                         <InvestmentStatusBadge status={investment.status} />
@@ -175,7 +179,7 @@ export function DashboardPage() {
                     {byStatus.map((entry) => (
                       <li key={entry.status} className="flex items-center justify-between gap-3">
                         <InvestmentStatusBadge status={entry.status} />
-                        <span className="text-sm font-medium tabular-nums text-slate-700">
+                        <span className="text-sm font-medium tabular-nums text-slate-700 dark:text-slate-300">
                           {entry.count}
                         </span>
                       </li>
@@ -190,17 +194,17 @@ export function DashboardPage() {
                   actions={
                     <Link
                       to="/lawyers"
-                      className="text-xs font-medium text-indigo-600 hover:text-indigo-500"
+                      className="text-xs font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
                     >
                       Manage
                     </Link>
                   }
                 />
                 <CardBody>
-                  <p className="text-2xl font-semibold tabular-nums text-slate-900">
+                  <p className="text-2xl font-semibold tabular-nums text-slate-900 dark:text-slate-100">
                     {lawyers?.length ?? 0}
                   </p>
-                  <p className="mt-1 text-xs text-slate-500">
+                  <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                     {all.filter((investment) => !investment.lawyer_id).length} deals without a lawyer
                     assigned
                   </p>

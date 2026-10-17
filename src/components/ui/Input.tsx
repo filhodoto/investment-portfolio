@@ -4,7 +4,10 @@ import { cn } from '@/lib/utils'
 
 const CONTROL =
   'block w-full rounded-lg bg-white px-3 py-2 text-sm text-slate-900 shadow-xs ring-1 ring-slate-300 ring-inset ' +
-  'placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-600 focus:outline-none disabled:bg-slate-50 disabled:text-slate-500'
+  'placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-600 focus:outline-none ' +
+  'disabled:bg-slate-50 disabled:text-slate-500 ' +
+  'dark:bg-slate-900 dark:text-slate-100 dark:ring-slate-700 dark:placeholder:text-slate-500 ' +
+  'dark:disabled:bg-slate-800 dark:disabled:text-slate-400'
 
 interface FieldShellProps {
   label: string
@@ -22,16 +25,19 @@ function FieldShell({ label, htmlFor, hint, error, required, hideLabel, children
     <div className={cn('flex flex-col gap-1.5', className)}>
       <label
         htmlFor={htmlFor}
-        className={cn('text-sm font-medium text-slate-700', hideLabel && 'sr-only')}
+        className={cn(
+          'text-sm font-medium text-slate-700 dark:text-slate-300',
+          hideLabel && 'sr-only',
+        )}
       >
         {label}
-        {required && <span className="ml-0.5 text-rose-500">*</span>}
+        {required && <span className="ml-0.5 text-rose-500 dark:text-rose-400">*</span>}
       </label>
       {children}
       {error ? (
-        <p className="text-xs text-rose-600">{error}</p>
+        <p className="text-xs text-rose-600 dark:text-rose-400">{error}</p>
       ) : hint ? (
-        <p className="text-xs text-slate-500">{hint}</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400">{hint}</p>
       ) : null}
     </div>
   )
@@ -60,7 +66,11 @@ export function Input({ label, hint, error, hideLabel, containerClassName, class
       <input
         id={id}
         aria-invalid={Boolean(error)}
-        className={cn(CONTROL, error && 'ring-rose-500 focus:ring-rose-500', className)}
+        className={cn(
+          CONTROL,
+          error && 'ring-rose-500 focus:ring-rose-500 dark:ring-rose-500 dark:focus:ring-rose-500',
+          className,
+        )}
         {...props}
       />
     </FieldShell>
@@ -100,7 +110,12 @@ export function Textarea({
         id={id}
         rows={4}
         aria-invalid={Boolean(error)}
-        className={cn(CONTROL, 'resize-y', error && 'ring-rose-500 focus:ring-rose-500', className)}
+        className={cn(
+          CONTROL,
+          'resize-y',
+          error && 'ring-rose-500 focus:ring-rose-500 dark:ring-rose-500 dark:focus:ring-rose-500',
+          className,
+        )}
         {...props}
       />
     </FieldShell>
@@ -140,7 +155,12 @@ export function Select({
       <select
         id={id}
         aria-invalid={Boolean(error)}
-        className={cn(CONTROL, 'pr-8', error && 'ring-rose-500 focus:ring-rose-500', className)}
+        className={cn(
+          CONTROL,
+          'pr-8',
+          error && 'ring-rose-500 focus:ring-rose-500 dark:ring-rose-500 dark:focus:ring-rose-500',
+          className,
+        )}
         {...props}
       >
         {options.map((option) => (

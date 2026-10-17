@@ -10,6 +10,7 @@ interface FormState {
   email: string
   phone: string
   office: string
+  country: string
   notes: string
 }
 
@@ -21,6 +22,7 @@ function toFormState(lawyer?: Lawyer | null): FormState {
     email: lawyer?.email ?? '',
     phone: lawyer?.phone ?? '',
     office: lawyer?.office ?? '',
+    country: lawyer?.country ?? '',
     notes: lawyer?.notes ?? '',
   }
 }
@@ -71,6 +73,7 @@ export function LawyerForm({
         email: form.email.trim() || null,
         phone: form.phone.trim() || null,
         office: form.office.trim() || null,
+        country: form.country.trim() || null,
         notes: form.notes.trim() || null,
       })
     } catch (error) {
@@ -104,13 +107,19 @@ export function LawyerForm({
           value={form.phone}
           onChange={(event) => set('phone', event.target.value)}
         />
+        <Input
+          label="Office"
+          placeholder="e.g. Lisboa"
+          value={form.office}
+          onChange={(event) => set('office', event.target.value)}
+        />
+        <Input
+          label="Country"
+          placeholder="e.g. Portugal"
+          value={form.country}
+          onChange={(event) => set('country', event.target.value)}
+        />
       </div>
-      <Input
-        label="Office"
-        placeholder="e.g. Lisboa"
-        value={form.office}
-        onChange={(event) => set('office', event.target.value)}
-      />
       <Textarea
         label="Notes"
         placeholder="Fees, availability, areas of expertise…"
@@ -119,12 +128,12 @@ export function LawyerForm({
       />
 
       {submitError && (
-        <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700 ring-1 ring-rose-200 ring-inset">
+        <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700 ring-1 ring-rose-200 ring-inset dark:bg-rose-950/50 dark:text-rose-300 dark:ring-rose-900">
           {submitError}
         </p>
       )}
 
-      <div className="flex items-center justify-end gap-2 border-t border-slate-200 pt-4">
+      <div className="flex items-center justify-end gap-2 border-t border-slate-200 pt-4 dark:border-slate-800">
         <Button type="button" variant="secondary" onClick={onCancel} disabled={submitting}>
           Cancel
         </Button>

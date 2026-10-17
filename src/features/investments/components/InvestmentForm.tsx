@@ -183,7 +183,9 @@ export function InvestmentForm({
       </div>
 
       <fieldset className="grid gap-4 sm:grid-cols-2">
-        <legend className="mb-1 text-sm font-semibold text-slate-900">Numbers (EUR)</legend>
+        <legend className="mb-1 text-sm font-semibold text-slate-900 dark:text-slate-100">
+          Numbers (EUR)
+        </legend>
         <Input
           label="Asking price"
           type="number"
@@ -244,12 +246,12 @@ export function InvestmentForm({
       />
 
       {submitError && (
-        <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700 ring-1 ring-rose-200 ring-inset">
+        <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700 ring-1 ring-rose-200 ring-inset dark:bg-rose-950/50 dark:text-rose-300 dark:ring-rose-900">
           {submitError}
         </p>
       )}
 
-      <div className="flex items-center justify-end gap-2 border-t border-slate-200 pt-4">
+      <div className="flex items-center justify-end gap-2 border-t border-slate-200 pt-4 dark:border-slate-800">
         <Button type="button" variant="secondary" onClick={onCancel} disabled={submitting}>
           Cancel
         </Button>

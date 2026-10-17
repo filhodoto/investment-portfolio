@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabaseClient'
-import { sanitizeSearchTerm } from '@/lib/utils'
+import { sanitizeSearchTerm, toNullableNumber } from '@/lib/utils'
 import type { Investment, InvestmentFilters, InvestmentInput } from '@/types/models'
 
 const TABLE = 'investments'
@@ -8,7 +8,7 @@ const TABLE = 'investments'
 const SELECT = '*, lawyer:lawyers(id, name)'
 
 export async function listInvestments(filters: InvestmentFilters): Promise<Investment[]> {
-  let query = supabase.from(TABLE).select(SELECT).order('created_at', { ascending: false })
+  let query = supabase.from(TABLE).select(SELECT)
 
   const term = sanitizeSearchTerm(filters.search)
   if (term) {
@@ -24,6 +24,19 @@ export async function listInvestments(filters: InvestmentFilters): Promise<Inves
     query = query.is('lawyer_id', null)
   } else if (filters.lawyerId !== 'all') {
     query = query.eq('lawyer_id', filters.lawyerId)
+  }
+
+  // Price range applies to the asking price. Rows without one are excluded,
+  // which is the intuitive behaviour for "show me deals between X and Y".
+  const minPrice = toNullableNumber(filters.minPrice)
+  const maxPrice = toNullableNumber(filters.maxPrice)
+  if (minPrice !== null) query = query.gte('asking_price', minPrice)
+  if (maxPrice !== null) query = query.lte('asking_price', maxPrice)
+
+  query = query.order(filters.sort, { ascending: filters.direction === 'asc' })
+  // Stable tie-breaker so equal prices keep a predictable order.
+  if (filters.sort !== 'created_at') {
+    query = query.order('created_at', { ascending: false })
   }
 
   const { data, error } = await query

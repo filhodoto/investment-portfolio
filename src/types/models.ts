@@ -39,14 +39,24 @@ export const INVESTMENT_STATUS_LABELS: Record<InvestmentStatus, string> = {
 }
 
 export const INVESTMENT_STATUS_TONES: Record<InvestmentStatus, string> = {
-  researching: 'bg-slate-100 text-slate-700 ring-slate-200',
-  visiting: 'bg-sky-100 text-sky-700 ring-sky-200',
-  offer_made: 'bg-amber-100 text-amber-800 ring-amber-200',
-  due_diligence: 'bg-violet-100 text-violet-700 ring-violet-200',
-  purchased: 'bg-emerald-100 text-emerald-700 ring-emerald-200',
-  sold: 'bg-teal-100 text-teal-700 ring-teal-200',
-  rejected: 'bg-rose-100 text-rose-700 ring-rose-200',
+  researching:
+    'bg-slate-100 text-slate-700 ring-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700',
+  visiting: 'bg-sky-100 text-sky-700 ring-sky-200 dark:bg-sky-950 dark:text-sky-300 dark:ring-sky-900',
+  offer_made:
+    'bg-amber-100 text-amber-800 ring-amber-200 dark:bg-amber-950 dark:text-amber-300 dark:ring-amber-900',
+  due_diligence:
+    'bg-violet-100 text-violet-700 ring-violet-200 dark:bg-violet-950 dark:text-violet-300 dark:ring-violet-900',
+  purchased:
+    'bg-emerald-100 text-emerald-700 ring-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:ring-emerald-900',
+  sold: 'bg-teal-100 text-teal-700 ring-teal-200 dark:bg-teal-950 dark:text-teal-300 dark:ring-teal-900',
+  rejected:
+    'bg-rose-100 text-rose-700 ring-rose-200 dark:bg-rose-950 dark:text-rose-300 dark:ring-rose-900',
 }
+
+/** Columns the investments table can be sorted by. */
+export const INVESTMENT_SORT_FIELDS = ['created_at', 'asking_price', 'expected_earnings'] as const
+export type InvestmentSortField = (typeof INVESTMENT_SORT_FIELDS)[number]
+export type SortDirection = 'asc' | 'desc'
 
 export interface Lawyer {
   id: string
@@ -55,6 +65,7 @@ export interface Lawyer {
   email: string | null
   phone: string | null
   office: string | null
+  country: string | null
   notes: string | null
   created_at: string
   updated_at: string
@@ -92,6 +103,7 @@ export type LawyerInput = {
   email?: string | null
   phone?: string | null
   office?: string | null
+  country?: string | null
   notes?: string | null
 }
 
@@ -116,11 +128,44 @@ export type InvestmentFilters = {
   typology: InvestmentTypology | 'all'
   status: InvestmentStatus | 'all'
   lawyerId: string | 'all' | 'none'
+  /** Free-text, debounced in the filter bar. Empty string = no bound. */
+  minPrice: string
+  maxPrice: string
+  sort: InvestmentSortField
+  direction: SortDirection
 }
+
+/** Filter state that actually narrows the result set (sorting is not a filter). */
+export type InvestmentFilterCriteria = Pick<
+  InvestmentFilters,
+  'search' | 'typology' | 'status' | 'lawyerId' | 'minPrice' | 'maxPrice'
+>
 
 export const EMPTY_FILTERS: InvestmentFilters = {
   search: '',
   typology: 'all',
   status: 'all',
   lawyerId: 'all',
+  minPrice: '',
+  maxPrice: '',
+  sort: 'created_at',
+  direction: 'desc',
+}
+
+/** Lawyer filtering is done in memory — the directory is a small reference list. */
+export type LawyerFilters = {
+  search: string
+  country: string | 'all'
+}
+
+export const EMPTY_LAWYER_FILTERS: LawyerFilters = {
+  search: '',
+  country: 'all',
+}
+
+/** Sort fields offered as clickable table headers, with their display labels. */
+export const INVESTMENT_SORT_LABELS: Record<InvestmentSortField, string> = {
+  created_at: 'Added',
+  asking_price: 'Asking',
+  expected_earnings: 'Expected',
 }

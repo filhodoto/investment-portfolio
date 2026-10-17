@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 
 import { Button } from '@/components/ui/Button'
+import { ThemeSwitcher } from '@/features/theme/components/ThemeSwitcher'
 import { useAuth } from '@/features/auth/hooks/useAuth'
 import { cn } from '@/lib/utils'
 
@@ -75,8 +76,8 @@ export function AppShell() {
             cn(
               'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
               isActive
-                ? 'bg-indigo-50 text-indigo-700'
-                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+                ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300'
+                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100',
             )
           }
         >
@@ -88,51 +89,68 @@ export function AppShell() {
   )
 
   return (
-    <div className="min-h-dvh bg-slate-50">
+    <div className="min-h-dvh bg-slate-50 dark:bg-slate-950">
       <div className="mx-auto flex min-h-dvh w-full max-w-[1400px]">
         {/* Desktop sidebar */}
-        <aside className="hidden w-60 shrink-0 flex-col border-r border-slate-200 bg-white px-3 py-5 lg:flex">
+        <aside className="hidden w-60 shrink-0 flex-col border-r border-slate-200 bg-white px-3 py-5 lg:flex dark:border-slate-800 dark:bg-slate-900">
           <div className="px-2 pb-5">
-            <p className="text-sm font-semibold text-slate-900">Gonçalo Investments</p>
-            <p className="text-xs text-slate-500">Deal filing &amp; tracking</p>
-          </div>
-          {nav}
-          <div className="mt-auto border-t border-slate-200 pt-4">
-            <p className="truncate px-2 text-xs text-slate-500" title={user?.email ?? ''}>
-              {user?.email}
+            <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+              Gonçalo Investments
             </p>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="mt-1 w-full justify-start"
-              onClick={() => void signOut()}
-            >
-              Sign out
-            </Button>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Deal filing &amp; tracking</p>
+          </div>
+
+          {nav}
+
+          <div className="mt-auto flex flex-col gap-3 border-t border-slate-200 pt-4 dark:border-slate-800">
+            <div className="px-1">
+              <ThemeSwitcher />
+            </div>
+            <div>
+              <p
+                className="truncate px-2 text-xs text-slate-500 dark:text-slate-400"
+                title={user?.email ?? ''}
+              >
+                {user?.email}
+              </p>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="mt-1 w-full justify-start"
+                onClick={() => void signOut()}
+              >
+                Sign out
+              </Button>
+            </div>
           </div>
         </aside>
 
         <div className="flex min-w-0 flex-1 flex-col">
           {/* Mobile top bar */}
-          <header className="flex items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-3 lg:hidden">
+          <header className="flex items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-3 lg:hidden dark:border-slate-800 dark:bg-slate-900">
             <button
               type="button"
               onClick={() => setMobileNavOpen((open) => !open)}
               aria-label="Toggle navigation"
-              className="rounded-md p-1.5 text-slate-600 hover:bg-slate-100"
+              className="rounded-md p-1.5 text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="size-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
               </svg>
             </button>
-            <p className="text-sm font-semibold text-slate-900">Gonçalo Investments</p>
+            <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+              Gonçalo Investments
+            </p>
             <Button variant="ghost" size="sm" onClick={() => void signOut()}>
               Sign out
             </Button>
           </header>
 
           {mobileNavOpen && (
-            <div className="border-b border-slate-200 bg-white px-3 py-3 lg:hidden">{nav}</div>
+            <div className="flex flex-col gap-3 border-b border-slate-200 bg-white px-3 py-3 lg:hidden dark:border-slate-800 dark:bg-slate-900">
+              {nav}
+              <ThemeSwitcher />
+            </div>
           )}
 
           <main className="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">

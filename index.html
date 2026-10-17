@@ -6,6 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Filing and tracking for real-estate investments." />
     <title>Gonçalo Investments</title>
+    <script>
+      // Applied before first paint so the app never flashes the wrong theme.
+      // Must stay in sync with THEME_STORAGE_KEY in src/features/theme/theme-context.ts.
+      ;(function () {
+        try {
+          var stored = localStorage.getItem('goncalo-investments:theme')
+          var dark =
+            stored === 'light' || stored === 'dark'
+              ? stored === 'dark'
+              : window.matchMedia('(prefers-color-scheme: dark)').matches
+          document.documentElement.classList.toggle('dark', dark)
+          document.documentElement.style.setProperty('color-scheme', dark ? 'dark' : 'light')
+        } catch (error) {
+          /* no-op: fall back to the default light theme */
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

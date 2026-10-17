@@ -20,8 +20,10 @@ import type { InvestmentInput } from '@/types/models'
 function DetailRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-0.5 py-2.5">
-      <dt className="text-xs font-medium tracking-wide text-slate-500 uppercase">{label}</dt>
-      <dd className="text-sm text-slate-900">{children}</dd>
+      <dt className="text-xs font-medium tracking-wide text-slate-500 uppercase dark:text-slate-400">
+        {label}
+      </dt>
+      <dd className="text-sm text-slate-900 dark:text-slate-100">{children}</dd>
     </div>
   )
 }
@@ -71,7 +73,7 @@ export function InvestmentDetailPage() {
     <>
       <Link
         to="/investments"
-        className="mb-4 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800"
+        className="mb-4 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
       >
         <svg viewBox="0 0 20 20" fill="currentColor" className="size-4" aria-hidden>
           <path
@@ -102,7 +104,7 @@ export function InvestmentDetailPage() {
       />
 
       {actionError && (
-        <p className="mb-4 rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700 ring-1 ring-rose-200 ring-inset">
+        <p className="mb-4 rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700 ring-1 ring-rose-200 ring-inset dark:bg-rose-950/50 dark:text-rose-300 dark:ring-rose-900">
           {actionError}
         </p>
       )}
@@ -121,7 +123,7 @@ export function InvestmentDetailPage() {
                 {formatCurrencyPrecise(investment.purchase_price)}
               </DetailRow>
               <DetailRow label="Expected earnings">
-                <span className="font-medium text-emerald-700">
+                <span className="font-medium text-emerald-700 dark:text-emerald-400">
                   {formatCurrencyPrecise(investment.expected_earnings)}
                 </span>
               </DetailRow>
@@ -131,7 +133,7 @@ export function InvestmentDetailPage() {
                     href={investment.source_url}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-indigo-600 hover:text-indigo-500"
+                    className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
                   >
                     Open listing
                   </a>
@@ -150,7 +152,10 @@ export function InvestmentDetailPage() {
             <CardHeader
               title="Lawyer"
               actions={
-                <Link to="/lawyers" className="text-xs font-medium text-indigo-600 hover:text-indigo-500">
+                <Link
+                  to="/lawyers"
+                  className="text-xs font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+                >
                   Manage
                 </Link>
               }
@@ -158,11 +163,15 @@ export function InvestmentDetailPage() {
             <CardBody>
               {investment.lawyer ? (
                 <div className="flex flex-col gap-1">
-                  <p className="text-sm font-medium text-slate-900">{investment.lawyer.name}</p>
-                  <p className="text-xs text-slate-500">Linked to this investment</p>
+                  <p className="text-sm font-medium text-slate-900 dark:text-slate-100">
+                    {investment.lawyer.name}
+                  </p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Linked to this investment
+                  </p>
                 </div>
               ) : (
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-slate-500 dark:text-slate-400">
                   No lawyer assigned. Edit the investment to link one.
                 </p>
               )}
@@ -173,9 +182,11 @@ export function InvestmentDetailPage() {
             <CardHeader title="Notes" />
             <CardBody>
               {investment.notes ? (
-                <p className="text-sm whitespace-pre-wrap text-slate-700">{investment.notes}</p>
+                <p className="text-sm whitespace-pre-wrap text-slate-700 dark:text-slate-300">
+                  {investment.notes}
+                </p>
               ) : (
-                <p className="text-sm text-slate-500">No notes yet.</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">No notes yet.</p>
               )}
             </CardBody>
           </Card>

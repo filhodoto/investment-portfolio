@@ -56,17 +56,19 @@ export function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-dvh items-center justify-center bg-slate-50 px-4 py-12">
+    <div className="flex min-h-dvh items-center justify-center bg-slate-50 px-4 py-12 dark:bg-slate-950">
       <div className="w-full max-w-sm">
         <div className="mb-6 text-center">
-          <p className="text-lg font-semibold tracking-tight text-slate-900">
+          <p className="text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-100">
             Gonçalo Investments
           </p>
-          <p className="mt-1 text-sm text-slate-500">Filing and tracking for property deals.</p>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            Filing and tracking for property deals.
+          </p>
         </div>
 
-        <div className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
-          <div className="mb-5 grid grid-cols-2 gap-1 rounded-lg bg-slate-100 p-1">
+        <div className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+          <div className="mb-5 grid grid-cols-2 gap-1 rounded-lg bg-slate-100 p-1 dark:bg-slate-800">
             {(['signin', 'signup'] as const).map((option) => (
               <button
                 key={option}
@@ -78,8 +80,8 @@ export function LoginPage() {
                 }}
                 className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
                   mode === option
-                    ? 'bg-white text-slate-900 shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-slate-100'
+                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
                 }`}
               >
                 {option === 'signin' ? 'Sign in' : 'Create account'}
@@ -108,12 +110,12 @@ export function LoginPage() {
             />
 
             {error && (
-              <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700 ring-1 ring-rose-200 ring-inset">
+              <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700 ring-1 ring-rose-200 ring-inset dark:bg-rose-950/50 dark:text-rose-300 dark:ring-rose-900">
                 {error}
               </p>
             )}
             {notice && (
-              <p className="rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-800 ring-1 ring-emerald-200 ring-inset">
+              <p className="rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-800 ring-1 ring-emerald-200 ring-inset dark:bg-emerald-950/50 dark:text-emerald-300 dark:ring-emerald-900">
                 {notice}
               </p>
             )}
@@ -124,7 +126,7 @@ export function LoginPage() {
           </form>
         </div>
 
-        <p className="mt-4 text-center text-xs text-slate-400">
+        <p className="mt-4 text-center text-xs text-slate-400 dark:text-slate-500">
           Data is stored in your Supabase project and protected by Row Level Security.
         </p>
       </div>
