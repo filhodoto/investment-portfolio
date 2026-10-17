@@ -160,11 +160,10 @@ npm run db:push
 
 ## Notes & next steps
 
-- `src/types/database.types.ts` is currently **empty** — `db:types` was run with `--local`, which
-  needs the Docker-based local stack. The script now uses `--linked`, so:
-  `npx supabase link --project-ref <ref> && npm run db:types`. Nothing imports it yet; once it has
-  content, pass the generated `Database` type to `createClient<Database>(...)` in
-  `src/lib/supabaseClient.ts` for end-to-end column-level typing.
+- The generated `Database` type is wired into `createClient<Database>(...)` in
+  `src/lib/supabaseClient.ts`, so table names and column shapes are checked at compile time.
+  Regenerate it after every migration with `npm run db:types` (the project must be linked:
+  `npx supabase link --project-ref <ref>`).
 - The production bundle is a single ~570 kB chunk (~163 kB gzipped), dominated by
   `@supabase/supabase-js`. If it matters later, lazy-load the feature routes with
   `React.lazy`/`import()`.
