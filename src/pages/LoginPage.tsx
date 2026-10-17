@@ -1,12 +1,19 @@
 import { useState, type FormEvent } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 
+import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { useAuth } from '@/features/auth/hooks/useAuth'
+import { APP_NAME } from '@/lib/app'
 import { toErrorMessage } from '@/lib/utils'
 
 type Mode = 'signin' | 'signup'
+
+const MODES: Array<{ value: Mode; label: string }> = [
+  { value: 'signin', label: 'Sign in' },
+  { value: 'signup', label: 'Create account' },
+]
 
 export function LoginPage() {
   const { status, signIn, signUp } = useAuth()
@@ -60,7 +67,7 @@ export function LoginPage() {
       <div className="w-full max-w-sm">
         <div className="mb-6 text-center">
           <p className="text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-100">
-            Gonçalo Investments
+            {APP_NAME}
           </p>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             Filing and tracking for property deals.
@@ -69,22 +76,22 @@ export function LoginPage() {
 
         <div className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
           <div className="mb-5 grid grid-cols-2 gap-1 rounded-lg bg-slate-100 p-1 dark:bg-slate-800">
-            {(['signin', 'signup'] as const).map((option) => (
+            {MODES.map((option) => (
               <button
-                key={option}
+                key={option.value}
                 type="button"
                 onClick={() => {
-                  setMode(option)
+                  setMode(option.value)
                   setError(null)
                   setNotice(null)
                 }}
                 className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                  mode === option
+                  mode === option.value
                     ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-slate-100'
                     : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
                 }`}
               >
-                {option === 'signin' ? 'Sign in' : 'Create account'}
+                {option.label}
               </button>
             ))}
           </div>
@@ -109,16 +116,8 @@ export function LoginPage() {
               onChange={(event) => setPassword(event.target.value)}
             />
 
-            {error && (
-              <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700 ring-1 ring-rose-200 ring-inset dark:bg-rose-950/50 dark:text-rose-300 dark:ring-rose-900">
-                {error}
-              </p>
-            )}
-            {notice && (
-              <p className="rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-800 ring-1 ring-emerald-200 ring-inset dark:bg-emerald-950/50 dark:text-emerald-300 dark:ring-emerald-900">
-                {notice}
-              </p>
-            )}
+            {error && <Alert>{error}</Alert>}
+            {notice && <Alert tone="success">{notice}</Alert>}
 
             <Button type="submit" loading={submitting} className="w-full">
               {mode === 'signin' ? 'Sign in' : 'Create account'}
