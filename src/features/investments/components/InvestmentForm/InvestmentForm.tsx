@@ -2,7 +2,8 @@ import { useState, type FormEvent } from 'react'
 
 import { Alert } from '@/components/ui/Alert'
 import { FormActions } from '@/components/ui/FormActions'
-import { Input, Select, Textarea } from '@/components/ui/Input'
+import { Input, Select } from '@/components/ui/Input'
+import { MarkdownEditor } from '@/components/ui/Markdown'
 import { STATUS_SELECT_OPTIONS, TYPOLOGY_SELECT_OPTIONS } from '@/features/investments/constants'
 import {
   toInvestmentFormState,
@@ -169,11 +170,11 @@ export function InvestmentForm({
         onChange={(event) => set('source_url', event.target.value)}
       />
 
-      <Textarea
+      <MarkdownEditor
         label="Notes"
         placeholder="Condition, refurbishment estimate, contacts, next steps…"
         value={form.notes}
-        onChange={(event) => set('notes', event.target.value)}
+        onChange={(notes) => set('notes', notes)}
       />
 
       {submitError && <Alert>{submitError}</Alert>}

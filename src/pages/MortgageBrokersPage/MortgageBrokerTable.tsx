@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/Button'
 import { CardBody } from '@/components/ui/Card'
+import { markdownToPlainText } from '@/components/ui/Markdown'
 import type { MortgageBroker } from '@/types/models'
 
 export interface MortgageBrokerTableProps {
@@ -73,7 +74,7 @@ export function MortgageBrokerTable({
                     className="max-w-72 truncate text-slate-700 dark:text-slate-300"
                     title={broker.notes}
                   >
-                    {broker.notes}
+                    {markdownToPlainText(broker.notes)}
                   </p>
                 ) : (
                   <span className="text-slate-400 dark:text-slate-500">—</span>

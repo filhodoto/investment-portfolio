@@ -14,6 +14,7 @@ all authorization is enforced by Row Level Security policies in the database.
 | Styling | Tailwind CSS v4 (CSS-first config, Vite plugin) |
 | Routing | React Router |
 | Server state | TanStack React Query |
+| Markdown | `react-markdown` + `remark-gfm` (rendering) |
 | Backend / DB | Supabase (PostgREST + Postgres RLS + Auth) |
 | Schema | Supabase CLI migrations in `supabase/migrations/` |
 
@@ -134,6 +135,9 @@ Open the printed URL, create an account, and you are in.
   per-lawyer count of linked deals.
 - **Mortgage Brokers** — directory of brokers you can use to finance deals, with name search and a
   **country** filter. Each broker stores a name, website, country and notes.
+- **Markdown notes** — investment, lawyer and mortgage-broker notes use a Markdown editor with a
+  formatting toolbar and live preview. Notes are stored as plain Markdown in the existing text
+  columns and rendered with `react-markdown`; table previews strip the formatting to stay one line.
 
 ## Data model
 

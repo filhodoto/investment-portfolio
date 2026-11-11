@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/Button'
 import { CardBody } from '@/components/ui/Card'
+import { markdownToPlainText } from '@/components/ui/Markdown'
 import type { Lawyer } from '@/types/models'
 
 export interface LawyerTableProps {
@@ -57,7 +58,7 @@ export function LawyerTable({
                   <p className="font-medium text-slate-900 dark:text-slate-100">{lawyer.name}</p>
                   {lawyer.notes && (
                     <p className="mt-0.5 line-clamp-1 max-w-72 text-xs text-slate-500 dark:text-slate-400">
-                      {lawyer.notes}
+                      {markdownToPlainText(lawyer.notes)}
                     </p>
                   )}
                 </td>

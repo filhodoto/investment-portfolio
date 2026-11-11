@@ -2,7 +2,8 @@ import { useState, type FormEvent } from 'react'
 
 import { Alert } from '@/components/ui/Alert'
 import { FormActions } from '@/components/ui/FormActions'
-import { Input, Textarea } from '@/components/ui/Input'
+import { Input } from '@/components/ui/Input'
+import { MarkdownEditor } from '@/components/ui/Markdown'
 import {
   toLawyerFormState,
   toLawyerInput,
@@ -90,11 +91,11 @@ export function LawyerForm({
           onChange={(event) => set('country', event.target.value)}
         />
       </div>
-      <Textarea
+      <MarkdownEditor
         label="Notes"
         placeholder="Fees, availability, areas of expertise…"
         value={form.notes}
-        onChange={(event) => set('notes', event.target.value)}
+        onChange={(notes) => set('notes', notes)}
       />
 
       {submitError && <Alert>{submitError}</Alert>}

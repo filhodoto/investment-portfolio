@@ -6,6 +6,7 @@ import { PageHeader } from '@/components/layout/PageHeader'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { Card, CardBody, CardHeader } from '@/components/ui/Card'
+import { Markdown } from '@/components/ui/Markdown'
 import { ConfirmDialog, Modal } from '@/components/ui/Modal'
 import { ErrorState } from '@/components/ui/ErrorState'
 import { LoadingState } from '@/components/ui/Spinner'
@@ -164,9 +165,7 @@ export function InvestmentDetailPage() {
             <CardHeader title="Notes" />
             <CardBody>
               {investment.notes ? (
-                <p className="text-sm whitespace-pre-wrap text-slate-700 dark:text-slate-300">
-                  {investment.notes}
-                </p>
+                <Markdown>{investment.notes}</Markdown>
               ) : (
                 <p className="text-sm text-slate-500 dark:text-slate-400">No notes yet.</p>
               )}
