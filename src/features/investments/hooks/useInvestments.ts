@@ -4,6 +4,7 @@ import {
   createInvestment,
   deleteInvestment,
   getInvestment,
+  listInvestmentCountries,
   listInvestments,
   updateInvestment,
 } from '@/features/investments/services/investmentService'
@@ -13,6 +14,7 @@ export const investmentKeys = {
   all: ['investments'] as const,
   lists: () => [...investmentKeys.all, 'list'] as const,
   list: (filters: InvestmentFilters) => [...investmentKeys.lists(), filters] as const,
+  countries: () => [...investmentKeys.all, 'countries'] as const,
   details: () => [...investmentKeys.all, 'detail'] as const,
   detail: (id: string) => [...investmentKeys.details(), id] as const,
 }
@@ -23,6 +25,13 @@ export function useInvestments(filters: InvestmentFilters) {
     queryFn: () => listInvestments(filters),
     // Keeps the previous rows on screen while a filter change refetches.
     placeholderData: (previous) => previous,
+  })
+}
+
+export function useInvestmentCountries() {
+  return useQuery({
+    queryKey: investmentKeys.countries(),
+    queryFn: listInvestmentCountries,
   })
 }
 

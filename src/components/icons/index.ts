@@ -1,4 +1,5 @@
 export { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon'
+export { BankIcon } from '@/components/icons/BankIcon'
 export { BuildingIcon } from '@/components/icons/BuildingIcon'
 export { ChartBarIcon } from '@/components/icons/ChartBarIcon'
 export { CloseIcon } from '@/components/icons/CloseIcon'

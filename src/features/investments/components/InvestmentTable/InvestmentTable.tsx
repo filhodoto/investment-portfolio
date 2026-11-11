@@ -3,8 +3,16 @@ import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { InvestmentStatusBadge } from '@/features/investments/components/InvestmentStatusBadge'
 import { SortableHeader } from '@/features/investments/components/InvestmentTable/SortableHeader'
-import { formatArea, formatCurrency, formatDate } from '@/lib/utils'
+import { cn, formatArea, formatCurrency, formatDate } from '@/lib/utils'
 import type { Investment, InvestmentSortField, SortDirection } from '@/types/models'
+
+/**
+ * Keeps the actions column visible when the table scrolls horizontally on
+ * desktop. The solid background stops the scrolled cells showing through.
+ */
+const STICKY_ACTIONS_HEADER =
+  'md:sticky md:right-0 md:z-10 md:border-l md:border-slate-200 md:bg-white dark:md:border-slate-800 dark:md:bg-slate-900'
+const STICKY_ACTIONS_CELL = `${STICKY_ACTIONS_HEADER} md:group-hover:bg-slate-50 dark:md:group-hover:bg-slate-800`
 
 export interface InvestmentTableProps {
   investments: Investment[]
@@ -66,7 +74,7 @@ export function InvestmentTable({
               direction={direction}
               onSort={onSort}
             />
-            <th scope="col" className="px-5 py-3 text-right">
+            <th scope="col" className={cn('px-5 py-3 text-right', STICKY_ACTIONS_HEADER)}>
               Actions
             </th>
           </tr>
@@ -75,7 +83,7 @@ export function InvestmentTable({
           {investments.map((investment) => (
             <tr
               key={investment.id}
-              className="transition-colors hover:bg-slate-50/70 dark:hover:bg-slate-800/40"
+              className="group transition-colors hover:bg-slate-50/70 dark:hover:bg-slate-800/40"
             >
               <td className="max-w-72 px-5 py-3">
                 <Link
@@ -112,7 +120,7 @@ export function InvestmentTable({
               <td className="px-4 py-3 whitespace-nowrap text-slate-500 dark:text-slate-400">
                 {formatDate(investment.created_at)}
               </td>
-              <td className="px-5 py-3">
+              <td className={cn('px-5 py-3', STICKY_ACTIONS_CELL)}>
                 <div className="flex items-center justify-end gap-1">
                   <Button variant="ghost" size="sm" onClick={() => onEdit(investment)}>
                     Edit

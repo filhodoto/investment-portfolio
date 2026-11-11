@@ -121,6 +121,39 @@ export type Database = {
         }
         Relationships: []
       }
+      mortgage_brokers: {
+        Row: {
+          country: string | null
+          created_at: string
+          id: string
+          name: string
+          notes: string | null
+          updated_at: string
+          user_id: string
+          website: string | null
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          notes?: string | null
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

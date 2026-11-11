@@ -25,6 +25,9 @@ export async function listInvestments(filters: InvestmentFilters): Promise<Inves
   } else if (filters.lawyerId !== 'all') {
     query = query.eq('lawyer_id', filters.lawyerId)
   }
+  if (filters.country !== 'all') {
+    query = query.eq('country', filters.country)
+  }
 
   // Price range applies to the asking price. Rows without one are excluded,
   // which is the intuitive behaviour for "show me deals between X and Y".
@@ -42,6 +45,18 @@ export async function listInvestments(filters: InvestmentFilters): Promise<Inves
   const { data, error } = await query
   if (error) throw error
   return (data ?? []) as Investment[]
+}
+
+/** Distinct countries across every investment — powers the country dropdown. */
+export async function listInvestmentCountries(): Promise<string[]> {
+  const { data, error } = await supabase.from(TABLE).select('country').order('country')
+  if (error) throw error
+
+  const seen = new Set<string>()
+  for (const row of data ?? []) {
+    if (row.country) seen.add(row.country)
+  }
+  return [...seen].sort((a, b) => a.localeCompare(b))
 }
 
 export async function getInvestment(id: string): Promise<Investment> {

@@ -71,6 +71,24 @@ export interface Lawyer {
   updated_at: string
 }
 
+export interface MortgageBroker {
+  id: string
+  user_id: string
+  name: string
+  website: string | null
+  country: string | null
+  notes: string | null
+  created_at: string
+  updated_at: string
+}
+
+export type MortgageBrokerInput = {
+  name: string
+  website?: string | null
+  country?: string | null
+  notes?: string | null
+}
+
 export interface InvestmentLawyerRef {
   id: string
   name: string
@@ -128,6 +146,7 @@ export type InvestmentFilters = {
   typology: InvestmentTypology | 'all'
   status: InvestmentStatus | 'all'
   lawyerId: string | 'all' | 'none'
+  country: string | 'all'
   /** Free-text, debounced in the filter bar. Empty string = no bound. */
   minPrice: string
   maxPrice: string
@@ -138,7 +157,7 @@ export type InvestmentFilters = {
 /** Filter state that actually narrows the result set (sorting is not a filter). */
 export type InvestmentFilterCriteria = Pick<
   InvestmentFilters,
-  'search' | 'typology' | 'status' | 'lawyerId' | 'minPrice' | 'maxPrice'
+  'search' | 'typology' | 'status' | 'lawyerId' | 'country' | 'minPrice' | 'maxPrice'
 >
 
 export const EMPTY_FILTERS: InvestmentFilters = {
@@ -146,6 +165,7 @@ export const EMPTY_FILTERS: InvestmentFilters = {
   typology: 'all',
   status: 'all',
   lawyerId: 'all',
+  country: 'all',
   minPrice: '',
   maxPrice: '',
   sort: 'created_at',
@@ -159,6 +179,17 @@ export type LawyerFilters = {
 }
 
 export const EMPTY_LAWYER_FILTERS: LawyerFilters = {
+  search: '',
+  country: 'all',
+}
+
+/** Mortgage brokers are a small reference list, filtered in memory like lawyers. */
+export type MortgageBrokerFilters = {
+  search: string
+  country: string | 'all'
+}
+
+export const EMPTY_MORTGAGE_BROKER_FILTERS: MortgageBrokerFilters = {
   search: '',
   country: 'all',
 }

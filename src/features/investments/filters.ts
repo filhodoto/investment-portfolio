@@ -6,6 +6,7 @@ const EMPTY_CRITERIA: InvestmentFilterCriteria = {
   typology: EMPTY_FILTERS.typology,
   status: EMPTY_FILTERS.status,
   lawyerId: EMPTY_FILTERS.lawyerId,
+  country: EMPTY_FILTERS.country,
   minPrice: EMPTY_FILTERS.minPrice,
   maxPrice: EMPTY_FILTERS.maxPrice,
 }
@@ -21,6 +22,7 @@ export function hasInvestmentCriteria(filters: InvestmentFilters): boolean {
     filters.typology !== EMPTY_CRITERIA.typology ||
     filters.status !== EMPTY_CRITERIA.status ||
     filters.lawyerId !== EMPTY_CRITERIA.lawyerId ||
+    filters.country !== EMPTY_CRITERIA.country ||
     filters.minPrice !== EMPTY_CRITERIA.minPrice ||
     filters.maxPrice !== EMPTY_CRITERIA.maxPrice
   )

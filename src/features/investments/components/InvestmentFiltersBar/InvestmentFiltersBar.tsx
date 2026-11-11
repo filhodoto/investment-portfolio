@@ -16,6 +16,7 @@ import type {
 export interface InvestmentFiltersBarProps {
   filters: InvestmentFilters
   lawyers: Lawyer[]
+  countries: string[]
   onChange: (patch: Partial<InvestmentFilters>) => void
 }
 
@@ -23,7 +24,12 @@ export interface InvestmentFiltersBarProps {
  * Fully controlled: the parent owns the filter state, so the debounce lives in
  * `useInvestmentQueryFilters` and this component needs no effects at all.
  */
-export function InvestmentFiltersBar({ filters, lawyers, onChange }: InvestmentFiltersBarProps) {
+export function InvestmentFiltersBar({
+  filters,
+  lawyers,
+  countries,
+  onChange,
+}: InvestmentFiltersBarProps) {
   const lawyerOptions = useMemo(
     () => [
       { value: 'all', label: 'All lawyers' },
@@ -32,6 +38,19 @@ export function InvestmentFiltersBar({ filters, lawyers, onChange }: InvestmentF
     ],
     [lawyers],
   )
+
+  const countryOptions = useMemo(() => {
+    // Keep the active country selectable even if no row currently uses it.
+    const values =
+      filters.country === 'all' || countries.includes(filters.country)
+        ? countries
+        : [filters.country, ...countries]
+
+    return [
+      { value: 'all', label: 'All countries' },
+      ...values.map((country) => ({ value: country, label: country })),
+    ]
+  }, [countries, filters.country])
 
   return (
     <div className="flex flex-col gap-3 border-b border-slate-200 px-4 py-4 sm:px-5 dark:border-slate-800">
@@ -42,7 +61,7 @@ export function InvestmentFiltersBar({ filters, lawyers, onChange }: InvestmentF
         aria-label="Search investments"
       />
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
         <Select
           label="Status"
           options={STATUS_FILTER_OPTIONS}
@@ -66,14 +85,23 @@ export function InvestmentFiltersBar({ filters, lawyers, onChange }: InvestmentF
           onChange={(event) => onChange({ lawyerId: event.target.value })}
           hideLabel
         />
-
-        <PriceRangeFilter
-          minPrice={filters.minPrice}
-          maxPrice={filters.maxPrice}
-          onChange={onChange}
+        <Select
+          label="Country"
+          options={countryOptions}
+          value={filters.country}
+          onChange={(event) => onChange({ country: event.target.value })}
+          hideLabel
         />
 
-        <div className="flex items-center sm:justify-end xl:col-span-2">
+        <div className="lg:col-span-2">
+          <PriceRangeFilter
+            minPrice={filters.minPrice}
+            maxPrice={filters.maxPrice}
+            onChange={onChange}
+          />
+        </div>
+
+        <div className="flex items-center sm:justify-end">
           <Button
             variant="ghost"
             size="sm"

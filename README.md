@@ -127,15 +127,19 @@ Open the printed URL, create an account, and you are in.
   operating system preference, live. An inline script in `index.html` applies the theme before first
   paint so there is no flash. Tailwind's class strategy is enabled with
   `@custom-variant dark (&:where(.dark, .dark *));` in `src/styles/globals.css`.
-- **Investments** — filter by free text, status, typology, lawyer and **asking-price range**; sort by
-  clicking the *Asking*, *Expected* or *Added* column headers. Filtering and sorting are pushed to
-  Postgres (they are part of the React Query key).
+- **Investments** — filter by free text, status, typology, lawyer, **country** and
+  **asking-price range**; sort by clicking the *Asking*, *Expected* or *Added* column headers.
+  Filtering and sorting are pushed to Postgres (they are part of the React Query key).
 - **Lawyers** — directory with name/email/phone/office search and a **country** filter, plus a
   per-lawyer count of linked deals.
+- **Mortgage Brokers** — directory of brokers you can use to finance deals, with name search and a
+  **country** filter. Each broker stores a name, website, country and notes.
 
 ## Data model
 
 **`lawyers`** — `name` (required), `email`, `phone`, `office`, `country` (nullable), `notes`.
+
+**`mortgage_brokers`** — `name` (required), `website`, `country` (nullable), `notes`.
 
 **`investments`** — `title` (required), `address`, `city`, `country`, `typology`
 (`T0`–`T7+`, `House`, `Land`, `Commercial`, `Other`), `status`
@@ -150,6 +154,8 @@ Deleting a lawyer sets the investment's `lawyer_id` to `NULL` — the deal keeps
 | --- | --- |
 | `20260115000000_init.sql` | Tables, indexes, `updated_at` triggers, RLS policies |
 | `20261017000000_lawyers_country.sql` | Adds nullable `lawyers.country` + index (additive) |
+| `20261111000000_investments_country_index.sql` | Adds an index for the investments country filter (additive) |
+| `20261111000001_mortgage_brokers.sql` | Adds the `mortgage_brokers` directory table + RLS (additive) |
 
 ### Adding a migration later
 

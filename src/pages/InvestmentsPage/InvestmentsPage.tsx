@@ -17,6 +17,7 @@ import { useInvestmentQueryFilters } from '@/features/investments/hooks/useInves
 import {
   useCreateInvestment,
   useDeleteInvestment,
+  useInvestmentCountries,
   useInvestments,
   useUpdateInvestment,
 } from '@/features/investments/hooks/useInvestments'
@@ -42,6 +43,7 @@ export function InvestmentsPage() {
   const { data: investments, isLoading, isError, error, refetch, isFetching } =
     useInvestments(queryFilters)
   const { data: lawyers = [] } = useLawyers()
+  const { data: countries = [] } = useInvestmentCountries()
 
   const createInvestment = useCreateInvestment()
   const updateInvestment = useUpdateInvestment()
@@ -117,7 +119,12 @@ export function InvestmentsPage() {
       {actionError && <Alert className="mb-4">{actionError}</Alert>}
 
       <Card>
-        <InvestmentFiltersBar filters={filters} lawyers={lawyers} onChange={patchFilters} />
+        <InvestmentFiltersBar
+          filters={filters}
+          lawyers={lawyers}
+          countries={countries}
+          onChange={patchFilters}
+        />
 
         {isLoading ? (
           <LoadingState label="Loading investments…" />
@@ -128,7 +135,7 @@ export function InvestmentsPage() {
             title={hasCriteria ? 'No investments match your filters' : 'No investments yet'}
             description={
               hasCriteria
-                ? 'Try widening the price range or clearing the filters above.'
+                ? 'Try a different country, widening the price range or clearing the filters above.'
                 : 'File your first property to start tracking prices, lawyers and expected earnings.'
             }
             actionLabel={hasCriteria ? 'Clear filters' : 'Add an investment'}

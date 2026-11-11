@@ -8,6 +8,7 @@ import { InvestmentDetailPage } from '@/pages/InvestmentDetailPage'
 import { InvestmentsPage } from '@/pages/InvestmentsPage'
 import { LawyersPage } from '@/pages/LawyersPage'
 import { LoginPage } from '@/pages/LoginPage'
+import { MortgageBrokersPage } from '@/pages/MortgageBrokersPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 import { SetupNotice } from '@/pages/SetupNotice'
 
@@ -31,6 +32,7 @@ export function App() {
         <Route path="investments" element={<InvestmentsPage />} />
         <Route path="investments/:id" element={<InvestmentDetailPage />} />
         <Route path="lawyers" element={<LawyersPage />} />
+        <Route path="mortgage-brokers" element={<MortgageBrokersPage />} />
         <Route path="404" element={<NotFoundPage />} />
         <Route path="*" element={<Navigate to="/404" replace />} />
       </Route>
